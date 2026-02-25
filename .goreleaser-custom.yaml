@@ -117,91 +117,12 @@ checksum:
     - archive-windows
     - archive-darwin-universal
 
-dockers:
-  - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-amd64'
-    use: buildx
-    goos: linux
-    goarch: amd64
-    ids:
-      - binary-linux
-    dockerfile: .release/Dockerfile
-    build_flag_templates:
-      - "--pull"
-      - "--platform=linux/amd64"
-      - "--label=org.opencontainers.image.created={{ .Date }}"
-      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source={{ .GitURL }}"
-
-  - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-arm64'
-    use: buildx
-    goos: linux
-    goarch: arm64
-    ids:
-      - binary-linux
-    dockerfile: .release/Dockerfile
-    build_flag_templates:
-      - "--pull"
-      - "--platform=linux/arm64"
-      - "--label=org.opencontainers.image.created={{ .Date }}"
-      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source={{ .GitURL }}"
-
-  - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine-amd64'
-    use: buildx
-    goos: linux
-    goarch: amd64
-    ids:
-      - binary-linux
-    dockerfile: .release/alpine.Dockerfile
-    build_flag_templates:
-      - "--pull"
-      - "--platform=linux/amd64"
-      - "--label=org.opencontainers.image.created={{ .Date }}"
-      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source={{ .GitURL }}"
-
-  - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine-arm64'
-    use: buildx
-    goos: linux
-    goarch: arm64
-    ids:
-      - binary-linux
-    dockerfile: .release/alpine.Dockerfile
-    build_flag_templates:
-      - "--pull"
-      - "--platform=linux/arm64"
-      - "--label=org.opencontainers.image.created={{ .Date }}"
-      - "--label=org.opencontainers.image.title={{ .ProjectName }}"
-      - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.version={{ .Version }}"
-      - "--label=org.opencontainers.image.source={{ .GitURL }}"
-
-docker_manifests:
-  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}'
-    image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-amd64'
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-arm64'
-
-  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine'
-    image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine-amd64'
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine-arm64'
-
 changelog:
   use: github-native
 
 release:
   prerelease: auto
+  draft: false # 自动发布，而不是存为草稿
   header: |
     ## Installation
 
@@ -219,12 +140,3 @@ release:
     # Make the binary executable
     chmod +x /usr/local/bin/{{ .ProjectName }}
     ```
-
-    ## Container Images
-
-    The `{{ .ProjectName }}` binaries are also available as container images, based on Debian (slim) and Alpine Linux.
-
-    ### GitHub Container Registry
-
-    - `ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}`
-    - `ghcr.io/{{ .Env.GITHUB_REPOSITORY }}:v{{ .Version }}-alpine`
