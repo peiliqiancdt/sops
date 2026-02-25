@@ -140,3 +140,20 @@ release:
     # Make the binary executable
     chmod +x /usr/local/bin/{{ .ProjectName }}
     ```
+
+brews:
+  - name: sops
+    repository:
+      owner: peiliqiancdt
+      name: sops
+      token: "{{ .Env.GITHUB_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/peiliqiancdt/sops"
+    description: "Editor of encrypted files"
+    license: "MPL-2.0"
+    ids:
+      - archive-unix
+    install: |
+      bin.install "sops-v#{version}.#{OS.kernel_name.downcase}.#{Hardware::CPU.arch}" => "sops"
+    test: |
+      system "#{bin}/sops", "--version"
