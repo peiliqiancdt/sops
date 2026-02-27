@@ -5,21 +5,21 @@
 class Sops < Formula
   desc "Editor of encrypted files"
   homepage "https://github.com/peiliqiancdt/sops"
-  version "3.12.1-acs-0.10"
+  version "0.11-acs"
   license "MPL-2.0"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/peiliqiancdt/sops/releases/download/v3.12.1-acs-0.10/sops-v3.12.1-acs-0.10.darwin.amd64"
-      sha256 "532f6ea17e7a7bba9b6d7daeea77191ef02c4276befeaefa93492067b397281c"
+      url "https://github.com/peiliqiancdt/sops/releases/download/v0.11-acs/sops-v0.11-acs.darwin.amd64"
+      sha256 "1641140673d7a40eed7805897a0eba537c32d5e579054d221c72743732c54a4a"
 
       define_method(:install) do
         bin.install "sops-v#{version}.#{OS.kernel_name.downcase}.#{Hardware::CPU.arch}" => "sops"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/peiliqiancdt/sops/releases/download/v3.12.1-acs-0.10/sops-v3.12.1-acs-0.10.darwin.arm64"
-      sha256 "f6353471f28a4664b0b71dd08d8c3dedb3f78624bdd692a716ac74ed90ee539e"
+      url "https://github.com/peiliqiancdt/sops/releases/download/v0.11-acs/sops-v0.11-acs.darwin.arm64"
+      sha256 "c9778b07aac05fc5b0cb981647fb7b22ec54a9cf5f92dcf4937a8b38126c68f5"
 
       define_method(:install) do
         bin.install "sops-v#{version}.#{OS.kernel_name.downcase}.#{Hardware::CPU.arch}" => "sops"
@@ -29,15 +29,15 @@ class Sops < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/peiliqiancdt/sops/releases/download/v3.12.1-acs-0.10/sops-v3.12.1-acs-0.10.linux.amd64"
-      sha256 "6f586bc6ff82813bbb43391ff49ef5255bd4f62ae6165782430862880516b06b"
+      url "https://github.com/peiliqiancdt/sops/releases/download/v0.11-acs/sops-v0.11-acs.linux.amd64"
+      sha256 "310cc8de7ca47bb47d646b9b9868e0a03c32e37876ddd2d3b714709cd6bf2486"
       define_method(:install) do
         bin.install "sops-v#{version}.#{OS.kernel_name.downcase}.#{Hardware::CPU.arch}" => "sops"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/peiliqiancdt/sops/releases/download/v3.12.1-acs-0.10/sops-v3.12.1-acs-0.10.linux.arm64"
-      sha256 "2adbb84a230773f7a4dd5f159252bb0258ef4c632f2c2534fed5655a3fb2466e"
+      url "https://github.com/peiliqiancdt/sops/releases/download/v0.11-acs/sops-v0.11-acs.linux.arm64"
+      sha256 "0ec288750386d09907574d5249f685d1047ad28a2838d1ee4a171c7de9d652d1"
       define_method(:install) do
         bin.install "sops-v#{version}.#{OS.kernel_name.downcase}.#{Hardware::CPU.arch}" => "sops"
       end
