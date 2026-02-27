@@ -29,31 +29,9 @@ func PrintVersion(c *cli.Context) {
 
 	out.WriteString(fmt.Sprintf("%s %s", c.App.Name, c.App.Version))
 
-	if c.Bool("disable-version-check") && !c.Bool("check-for-updates") {
-		out.WriteString("\n")
-	} else {
-		upstreamVersion, upstreamURL, err := RetrieveLatestReleaseVersion()
-		if err != nil {
-			out.WriteString(fmt.Sprintf("\n[warning] failed to retrieve latest version from upstream: %v\n", err))
-		} else {
-			outdated, err := AIsNewerThanB(upstreamVersion, Version)
-			if err != nil {
-				out.WriteString(fmt.Sprintf("\n[warning] failed to compare current version with latest: %v\n", err))
-			} else {
-				if outdated {
-					out.WriteString(fmt.Sprintf("\n[info] a new version of sops (%s) is available, you can update by visiting: %s\n", upstreamVersion, upstreamURL))
-				} else {
-					out.WriteString(" (latest)\n")
-				}
-			}
-		}
-		if !c.Bool("check-for-updates") {
-			out.WriteString(
-				"\n[warning] Note that in a future version, sops will no longer check whether the current version is the latest when asking for sops' version." +
-					" If you want to explicitly check for the latest version, add the `--check-for-updates` option to `sops --version`." +
-					" This will hide this deprecation warning and will always check, even if the default behavior changes in the future.\n")
-		}
-	}
+	out.WriteString(`
+[warning] It's a custom version of sops with AlibabaCloud KMS integration, which is based on sops 3.12.1. If you want to check for the latest official version, please visit "https://github.com/getsops/sops/releases".
+`)
 	fmt.Fprintf(c.App.Writer, "%s", out.String())
 }
 
