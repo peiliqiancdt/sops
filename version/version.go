@@ -29,9 +29,9 @@ func PrintVersion(c *cli.Context) {
 
 	out.WriteString(fmt.Sprintf("%s %s", c.App.Name, c.App.Version))
 
-	out.WriteString(`
-[warning] It's a custom version of sops with AlibabaCloud KMS integration, which is based on sops 3.12.1. If you want to check for the latest official version, please visit "https://github.com/getsops/sops/releases".
-`)
+	out.WriteString(fmt.Sprintf(`
+[warning] It's a custom version of sops with AlibabaCloud KMS integration, which is based on sops %s. If you want to check for the latest official version, please visit "https://github.com/getsops/sops/releases".
+`, Version))
 	fmt.Fprintf(c.App.Writer, "%s", out.String())
 }
 
