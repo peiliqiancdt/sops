@@ -78,7 +78,7 @@ jobs:
           curl -fsSL "${checksums_url}" -o checksums.txt
 
       - name: Checkout tap repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ env.TAP_OWNER }}/${{ env.TAP_REPO }}
           token: ${{ steps.app-token.outputs.token }}
