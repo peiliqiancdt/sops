@@ -1,5 +1,7 @@
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 
+version: 2
+
 project_name: sops
 
 before:
@@ -61,12 +63,12 @@ nfpms:
       - rpm
 
 snapshot:
-  name_template: "{{ incpatch .Version }}-dev-{{ .ShortCommit }}"
+  version_template: "{{ incpatch .Version }}-dev-{{ .ShortCommit }}"
 
 archives:
   - id: archive-unix
-    format: binary
-    builds:
+    formats: [ 'binary' ]
+    ids:
       - binary-linux
       - binary-darwin
     name_template: '{{ .ProjectName }}-v{{ .Version }}.{{ .Os }}.{{ .Arch }}'
