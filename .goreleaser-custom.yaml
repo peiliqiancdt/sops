@@ -49,19 +49,6 @@ builds:
       - arm64
     mod_timestamp: "{{ .CommitTimestamp }}"
 
-nfpms:
-  - id: deb
-    package_name: '{{ .ProjectName }}'
-    file_name_template: '{{ .ConventionalFileName }}'
-    vendor: custom-sops
-    homepage: https://github.com/{{ .Env.GITHUB_REPOSITORY }}
-    maintainer: custom-sops <custom@example.com>
-    description: Simple and flexible tool for managing secrets
-    license: MPL-2.0
-    formats:
-      - deb
-      - rpm
-
 snapshot:
   version_template: "{{ incpatch .Version }}-dev-{{ .ShortCommit }}"
 
