@@ -4,6 +4,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/alibabacloud-go/tea/tea"
+	"github.com/aliyun/credentials-go/credentials"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -137,4 +139,22 @@ func TestMasterKey_MethodProxies(t *testing.T) {
 	err = k.EncryptIfNeeded([]byte("data"))
 	assert.NoError(t, err)
 	assert.Equal(t, "already_encrypted", k.EncryptedKey)
+}
+
+func TestCredentialProvider_ApplyToMasterKey(t *testing.T) {
+	arn := "acs:kms:cn-shanghai:1234567890:key/key1"
+	k, err := NewMasterKey(arn)
+	assert.NoError(t, err)
+
+	cred, err := credentials.NewCredential(&credentials.Config{
+		Type:            tea.String("access_key"),
+		AccessKeyId:     tea.String("test-id"),
+		AccessKeySecret: tea.String("test-secret"),
+	})
+	assert.NoError(t, err)
+
+	cp := NewCredentialProvider(cred)
+	cp.ApplyToMasterKey(k)
+
+	assert.Equal(t, cred, k.credentialProvider)
 }
