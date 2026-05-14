@@ -46,6 +46,25 @@ type MasterKey struct {
 	EncryptedKey string
 	// CreationDate is when this MasterKey was created.
 	CreationDate time.Time
+	// credentialProvider can override the default credentials resolution chain.
+	credentialProvider credentials.Credential
+}
+
+// CredentialProvider is a wrapper around credentials.Credential used for
+// authentication towards Alibaba Cloud KMS.
+type CredentialProvider struct {
+	credential credentials.Credential
+}
+
+// NewCredentialProvider returns a CredentialProvider object with the provided
+// credentials.Credential.
+func NewCredentialProvider(c credentials.Credential) *CredentialProvider {
+	return &CredentialProvider{credential: c}
+}
+
+// ApplyToMasterKey configures the credential provider on the provided key.
+func (c CredentialProvider) ApplyToMasterKey(key *MasterKey) {
+	key.credentialProvider = c.credential
 }
 
 // NewMasterKey creates a new MasterKey from a key arn string, setting
@@ -180,9 +199,13 @@ func (key *MasterKey) TypeToIdentifier() string {
 
 // getClient returns a new Alibaba Cloud KMS client.
 func (key *MasterKey) getClient() (*kmssdk.Client, error) {
-	cred, err := credentials.NewCredential(nil)
-	if err != nil {
-		return nil, fmt.Errorf("acskms credential error: %v", err)
+	cred := key.credentialProvider
+	if cred == nil {
+		var err error
+		cred, err = credentials.NewCredential(nil)
+		if err != nil {
+			return nil, fmt.Errorf("acskms credential error: %v", err)
+		}
 	}
 
 	config := &openapi.Config{
